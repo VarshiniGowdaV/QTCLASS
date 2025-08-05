@@ -12,20 +12,35 @@ Window {
     property bool showSignupForm: false
 
     Rectangle {
-        width: background.width * 0.6
+        width: background.width * 0.4
         height: background.height * 0.9
         anchors.centerIn: parent
         radius: 10
         border.color: "black"
-        color: "#f0f0f0"
+        color: "light grey"
 
-        ScrollView {
-            anchors.fill: parent
+        Text {
+            text: qsTr("Student Login")
+            font.pixelSize: 24
+            font.bold: true
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.topMargin: 20
+        }
 
-            Column {
+        Column {
+            width: parent.width * 0.9
+            spacing: 10
+            anchors {
+                top: parent.top
+                topMargin: 60
+                horizontalCenter: parent.horizontalCenter
+            }
+
+            Row {
                 spacing: 10
-                padding: 20
-                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+
                 Button {
                     text: "Login"
                     visible: !showLoginForm && !showSignupForm
@@ -43,133 +58,342 @@ Window {
                         showLoginForm = false
                     }
                 }
-                Column {
-                    spacing: 10
-                    visible: showLoginForm
+            }
 
-                    Text {
-                        text: "Login Form"
-                        font.bold: true
-                        font.pixelSize: 18
-                    }
+            Column {
+                spacing: 10
+                visible: showLoginForm
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                    TextField {
-                        id: loginUsername
-                        placeholderText: "Username / Email"
-                        width: parent.width
-                    }
+                Text {
+                    text: "Login Form"
+                    font.bold: true
+                    font.pixelSize: 18
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                Text {
+                    id: userlable
+                    text: qsTr("UserName")
+                }
+                TextField {
+                    id: loginUsername
+                    placeholderText: "Username / Email"
+                    width: parent.width * 0.9
+                }
+                Text {
+                    id: passwordlable
+                    text: qsTr("Password")
+                }
+                TextField {
+                    id: loginPassword
+                    placeholderText: "Password"
+                    echoMode: TextInput.Password
+                    width: parent.width * 0.9
+                }
 
-                    TextField {
-                        id: loginPassword
-                        placeholderText: "Password"
-                        echoMode: TextInput.Password
-                        width: parent.width
-                    }
-                    Button {
-                        text: "Submit"
-                        onClicked: {
-                            if (studentHandler.login(loginUsername.text, loginPassword.text)) {
-                                console.log(" Login Successful")
-                            } else {
-                                console.log(" Login Failed")
-                            }
-                        }
-                    }
-
-
-                    Button {
-                        text: "Back"
-                        onClicked: {
-                            showLoginForm = false
+                Button {
+                    text: "Submit"
+                    onClicked: {
+                        if (studentHandler.login(loginUsername.text, loginPassword.text)) {
+                            console.log("Login Successful")
+                        } else {
+                            console.log("Login Failed")
                         }
                     }
                 }
 
-                Column {
-                    spacing: 10
-                    visible: showSignupForm
+                Button {
+                    text: "Back"
+                    onClicked: showLoginForm = false
+                }
+            }
 
-                    Text {
-                        text: "Signup Form"
-                        font.bold: true
-                        font.pixelSize: 18
-                    }
+            Column {
+                spacing: 10
+                visible: showSignupForm
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                    TextField {
-                        id: studentName
-                        placeholderText: "Student Name"
-                        width: parent.width
-                    }
+                Text {
+                    text: "Signup Form"
+                    font.bold: true
+                    font.pixelSize: 18
+                }
+                Text {
+                    id: studentNamelable
+                    text: qsTr("StudentName")
+                }
+                TextField {
+                    id: studentName
+                    placeholderText: "Student Name"
+                    width: parent.width * 0.9
+                }
+                Text {
+                    id: studentPhoneNumberlable
+                    text: qsTr("Student Phone Number")
+                }
+                TextField {
+                    id: phoneNumber
+                    placeholderText: "Phone Number"
+                    width: parent.width * 0.9
+                }
+                Text {
+                    id: fatherNamelable
+                    text: qsTr("FatherName")
+                }
+                TextField {
+                    id: fatherName
+                    placeholderText: "Father's Name"
+                    width: parent.width * 0.9
+                }
+                Text {
+                    id: usernamelable
+                    text: qsTr("UserName/Emailid")
+                }
+                TextField {
+                    id: signupUsername
+                    placeholderText: "Username / Email"
+                    width: parent.width * 0.9
+                }
+                Text {
+                    id: passwordslable
+                    text: qsTr("Password")
+                }
+                TextField {
+                    id: signupPassword
+                    placeholderText: "Password"
+                    echoMode: TextInput.Password
+                    width: parent.width * 0.9
+                }
+                Text {
+                    id: confirmpasswordlable
+                    text: qsTr("ConfirmPassword")
+                }
+                TextField {
+                    id: confirmPassword
+                    placeholderText: "Confirm Password"
+                    echoMode: TextInput.Password
+                    width: parent.width * 0.9
+                }
 
-                    TextField {
-                        id: phoneNumber
-                        placeholderText: "Phone Number"
-                        width: parent.width
-                    }
+                Button {
+                    text: "Submit"
+                    onClicked: {
+                        if (signupPassword.text !== confirmPassword.text) {
+                            console.log("Passwords do not match!")
+                        } else {
+                            studentHandler.name = studentName.text
+                            studentHandler.phone = phoneNumber.text
+                            studentHandler.father = fatherName.text
+                            studentHandler.username = signupUsername.text
+                            studentHandler.password = signupPassword.text
 
-                    TextField {
-                        id: fatherName
-                        placeholderText: "Father's Name"
-                        width: parent.width
-                    }
-
-                    TextField {
-                        id: signupUsername
-                        placeholderText: "Username / Email"
-                        width: parent.width
-                    }
-
-                    TextField {
-                        id: signupPassword
-                        placeholderText: "Password"
-                        echoMode: TextInput.Password
-                        width: parent.width
-                    }
-
-                    TextField {
-                        id: confirmPassword
-                        placeholderText: "Confirm Password"
-                        echoMode: TextInput.Password
-                        width: parent.width
-                    }
-
-                    Button {
-                        text: "Submit"
-                        onClicked: {
-                            if (signupPassword.text !== confirmPassword.text) {
-                                console.log(" Passwords do not match!")
-                            } else {
-                                studentHandler.name = studentName.text
-                                studentHandler.phone = phoneNumber.text
-                                studentHandler.father = fatherName.text
-                                studentHandler.username = signupUsername.text
-                                studentHandler.password = signupPassword.text
-
-                                if (studentHandler.signup()) {
-                                    console.log(" Signup successful")
-                                }
+                            if (studentHandler.signup()) {
+                                console.log("Signup successful")
                             }
                         }
                     }
-                    Button {
-                        text: "Save"
-                        onClicked: {
-                            if (studentHandler) {
-                                showSignupForm = true
-                                console.log("Saved successfully")
-                            }
+                }
+
+                Button {
+                    text: "Save"
+                    onClicked: {
+                        if (studentHandler) {
+                            showSignupForm = true
+                            console.log("Saved successfully")
                         }
                     }
+                }
 
-
-                    Button {
-                        text: "Back"
-                        onClicked: {
-                            showSignupForm = false
-                        }
-                    }
+                Button {
+                    text: "Back"
+                    onClicked: showSignupForm = false
                 }
             }
         }
     }
 }
+
+
+// import QtQuick
+// import QtQuick.Controls
+
+// Window {
+//     width: 640
+//     height: 480
+//     visible: true
+//     title: qsTr("Login / Signup UI")
+//     id: background
+
+//     property bool showLoginForm: false
+//     property bool showSignupForm: false
+
+//     Rectangle {
+//         width: background.width * 0.3
+//         height: background.height * 0.8
+//         anchors.centerIn:  parent
+//         anchors.verticalCenter: parent.verticalCenter
+//         radius: 10
+//         border.color: "black"
+//         color: "light grey"
+//         Text {
+//             text: qsTr("Student Login")
+//             font.pixelSize: 24
+//             anchors.top: parent.top
+//             anchors.horizontalCenter: parent.horizontalCenter
+//             anchors.topMargin: 20
+//         }
+
+//         ScrollView {
+//             anchors.fill: parent
+
+//             Column {
+//                 spacing: 10
+//                 padding: 20
+//                 width: parent.width
+//                 Button {
+//                     text: "Login"
+//                     visible: !showLoginForm && !showSignupForm
+//                     onClicked: {
+//                         showLoginForm = true
+//                         showSignupForm = false
+//                     }
+//                 }
+
+//                 Button {
+//                     text: "Signup"
+//                     visible: !showLoginForm && !showSignupForm
+//                     onClicked: {
+//                         showSignupForm = true
+//                         showLoginForm = false
+//                     }
+//                 }
+//                 Column {
+//                     spacing: 10
+//                     visible: showLoginForm
+
+//                     Text {
+//                         text: "Login Form"
+//                         font.bold: true
+//                         font.pixelSize: 18
+//                     }
+
+//                     TextField {
+//                         id: loginUsername
+//                         placeholderText: "Username / Email"
+//                         width: parent.width
+//                     }
+
+//                     TextField {
+//                         id: loginPassword
+//                         placeholderText: "Password"
+//                         echoMode: TextInput.Password
+//                         width: parent.width
+//                     }
+//                     Button {
+//                         text: "Submit"
+//                         onClicked: {
+//                             if (studentHandler.login(loginUsername.text, loginPassword.text)) {
+//                                 console.log(" Login Successful")
+//                             } else {
+//                                 console.log(" Login Failed")
+//                             }
+//                         }
+//                     }
+
+
+//                     Button {
+//                         text: "Back"
+//                         onClicked: {
+//                             showLoginForm = false
+//                         }
+//                     }
+//                 }
+
+//                 Column {
+//                     spacing: 10
+//                     visible: showSignupForm
+
+//                     Text {
+//                         text: "Signup Form"
+//                         font.bold: true
+//                         font.pixelSize: 18
+//                     }
+
+//                     TextField {
+//                         id: studentName
+//                         placeholderText: "Student Name"
+//                         width: parent.width
+//                     }
+
+//                     TextField {
+//                         id: phoneNumber
+//                         placeholderText: "Phone Number"
+//                         width: parent.width
+//                     }
+
+//                     TextField {
+//                         id: fatherName
+//                         placeholderText: "Father's Name"
+//                         width: parent.width
+//                     }
+
+//                     TextField {
+//                         id: signupUsername
+//                         placeholderText: "Username / Email"
+//                         width: parent.width
+//                     }
+
+//                     TextField {
+//                         id: signupPassword
+//                         placeholderText: "Password"
+//                         echoMode: TextInput.Password
+//                         width: parent.width
+//                     }
+
+//                     TextField {
+//                         id: confirmPassword
+//                         placeholderText: "Confirm Password"
+//                         echoMode: TextInput.Password
+//                         width: parent.width
+//                     }
+
+//                     Button {
+//                         text: "Submit"
+//                         onClicked: {
+//                             if (signupPassword.text !== confirmPassword.text) {
+//                                 console.log(" Passwords do not match!")
+//                             } else {
+//                                 studentHandler.name = studentName.text
+//                                 studentHandler.phone = phoneNumber.text
+//                                 studentHandler.father = fatherName.text
+//                                 studentHandler.username = signupUsername.text
+//                                 studentHandler.password = signupPassword.text
+
+//                                 if (studentHandler.signup()) {
+//                                     console.log(" Signup successful")
+//                                 }
+//                             }
+//                         }
+//                     }
+//                     Button {
+//                         text: "Save"
+//                         onClicked: {
+//                             if (studentHandler) {
+//                                 showSignupForm = true
+//                                 console.log("Saved successfully")
+//                             }
+//                         }
+//                     }
+
+
+//                     Button {
+//                         text: "Back"
+//                         onClicked: {
+//                             showSignupForm = false
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
