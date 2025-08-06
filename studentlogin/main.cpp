@@ -10,7 +10,6 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     StudentDetails student;
-
     engine.rootContext()->setContextProperty("studentHandler", &student);
 
     const QUrl url(QStringLiteral("qrc:/studentlogin/main.qml"));
@@ -28,3 +27,5 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
+
+
