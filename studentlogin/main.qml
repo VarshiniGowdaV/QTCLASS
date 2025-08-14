@@ -2,8 +2,8 @@ import QtQuick
 import QtQuick.Controls
 
 Window {
-    width: 640
-    height: 480
+    width: 500
+    height: 850
     visible: true
     title: qsTr("Login / Signup UI")
     id: background
