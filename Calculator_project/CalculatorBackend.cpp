@@ -30,7 +30,6 @@ void CalculatorBackend::handleButtonClick(const QString &label)
             setDisplayText(m_displayText.left(m_displayText.length() - 1));
     }
     else if (label == "=") {
-        // ✅ Evaluate the expression
         QJSEngine engine;
         QString expression = m_displayText;
         expression.replace("×", "*");

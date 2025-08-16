@@ -7,8 +7,6 @@ ApplicationWindow {
     width: 360
     height: 640
     title: "Calculator"
-
-    // Replace backend with QML property
     property string displayText: ""
 
     function handleButtonClick(value) {
@@ -77,7 +75,6 @@ ApplicationWindow {
                     Layout.preferredWidth: parent ? parent.width / 4 - 10 : 70
                     Layout.preferredHeight: Layout.preferredWidth
 
-                    // Now call QML function
                     onClicked: handleButtonClick(btn.text)
                 }
             }
