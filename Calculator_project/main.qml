@@ -40,7 +40,6 @@ ApplicationWindow {
         initialItem: mainPage
     }
 
-    // ================= Main Calculator Page =================
     Component {
         id: mainPage
         Page {
@@ -51,7 +50,6 @@ ApplicationWindow {
                 spacing: 10
                 anchors.margins: 10
 
-                // Display Bar
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 150
@@ -65,7 +63,6 @@ ApplicationWindow {
                         text: displayText
                     }
 
-                    // 3-dots menu
                     Menu {
                         id: optionsMenu
                         MenuItem {
@@ -82,7 +79,6 @@ ApplicationWindow {
                     }
                 }
 
-                // Calculator Buttons
                 Component {
                     id: calcButtonComponent
                     Button {
@@ -152,7 +148,6 @@ ApplicationWindow {
         }
     }
 
-    // ================= History Page =================
     Component {
         id: historyPage
         Page {
