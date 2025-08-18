@@ -4,7 +4,7 @@ Rectangle {
     id: background
     width: parent.width
     height: 50
-    color: "DarkGrey"
+    color: "Grey"
     border.color: "Black"
     z: 2
 

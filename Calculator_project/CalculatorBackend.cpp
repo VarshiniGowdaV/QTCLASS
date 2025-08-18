@@ -37,7 +37,10 @@ void CalculatorBackend::handleButtonClick(const QString &label)
 
         QJSValue result = engine.evaluate(expression);
         if (!result.isError()) {
-            setDisplayText(result.toString());
+            QString res = result.toString();
+            m_history.append(expression + " = " + res); // NEW
+            emit historyChanged(); // NEW
+            setDisplayText(res);
         } else {
             setDisplayText("Error");
         }
@@ -46,3 +49,11 @@ void CalculatorBackend::handleButtonClick(const QString &label)
         setDisplayText(m_displayText + label);
     }
 }
+
+void CalculatorBackend::clearHistory() // NEW
+{
+    m_history.clear();
+    emit historyChanged();
+}
+
+

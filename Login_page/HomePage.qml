@@ -5,7 +5,7 @@ import QtQuick.Layouts
 Rectangle{
     id: homePage
     anchors.fill: parent
-    color: "lightgrey"
+    color: "white"
 
     signal signInClicked()
     signal signUpClicked()
