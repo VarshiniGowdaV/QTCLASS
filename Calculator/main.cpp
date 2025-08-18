@@ -7,17 +7,14 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    QQmlApplicationEngine engine;
     CalculatorBackend backend;
-    engine.rootContext()->setContextProperty("backend", &backend);
 
-    const QUrl url(QStringLiteral("qrc:Calculator/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-                         if (!obj && url == objUrl)
-                             QCoreApplication::exit(-1);
-                     }, Qt::QueuedConnection);
-    engine.load(url);
+    QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("backend", &backend);
+    engine.load(QUrl(QStringLiteral("qrc:Calculator/main.qml")));
+
+    if (engine.rootObjects().isEmpty())
+        return -1;
 
     return app.exec();
 }

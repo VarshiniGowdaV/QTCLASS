@@ -16,7 +16,7 @@ class CalculatorBackend : public QObject
 public:
     explicit CalculatorBackend(QObject *parent = nullptr);
 
-    QString getdisplayText() const;
+    QString displayText() const;
     void setDisplayText(const QString &text);
 
     QList<QVariantMap> buttons() const;

@@ -42,9 +42,14 @@ ApplicationWindow {
                     font.pixelSize: 22
                     Layout.preferredWidth: 80
                     Layout.preferredHeight: 80
+                    background: Rectangle {
+                        color: modelData.color || "grey"
+                        radius: 40
+                    }
                     onClicked: if (backend) backend.handleButtonClick(modelData.text)
                 }
             }
+
         }
     }
 }

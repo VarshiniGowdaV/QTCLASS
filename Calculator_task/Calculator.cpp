@@ -14,7 +14,7 @@ CalculatorBackend::CalculatorBackend(QObject *parent)
     };
 }
 
-QString CalculatorBackend::getdisplayText() const
+QString CalculatorBackend::displayText() const
 {
     return m_displayText;
 }
