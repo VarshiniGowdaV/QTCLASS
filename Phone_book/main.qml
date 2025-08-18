@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import Qt.labs.settings 1.1
 
 ApplicationWindow {
     visible: true
@@ -10,6 +11,16 @@ ApplicationWindow {
 
     // JavaScript array to manage contacts with name and phone
     property var contacts: []
+
+    // Persistent storage for contacts
+    Settings {
+        id: appSettings
+        property var savedContacts: []
+    }
+
+    // State for showing/hiding the add contact form
+    property bool showAddForm: false
+    property string selectedContact: ""
 
     // Function to add or update a contact
     function addOrUpdateContact(firstName, surname, company, phone) {
@@ -24,15 +35,21 @@ ApplicationWindow {
         }
         if (!contactExists && fullName) {
             contacts.push({ name: fullName, phone: phone })
-            contactList.model = contacts
         }
+
+        // Sort contacts alphabetically by name
+        contacts.sort(function(a, b) {
+            return a.name.localeCompare(b.name)
+        })
+
+        // Update the ListView and save
+        contactList.model = contacts
+        appSettings.savedContacts = contacts
+
+        // Reset form
         firstNameField.text = ""; surnameField.text = ""; companyField.text = ""; phoneField.text = ""
         showAddForm = false
     }
-
-    // State for showing/hiding the add contact form
-    property bool showAddForm: false
-    property string selectedContact: ""
 
     // Search bar
     TextField {
@@ -72,10 +89,10 @@ ApplicationWindow {
                     color: {
                         var firstChar = modelData.name.charAt(0).toUpperCase()
                         switch (firstChar) {
-                        case "A": return "red" // Red
-                        case "M": return "teal" // Teal
-                        case "P": return "blue" // Blue
-                        default: return "green" // Greenish
+                        case "A": return "red"
+                        case "M": return "teal"
+                        case "P": return "blue"
+                        default: return "green"
                         }
                     }
                     Text {
@@ -97,7 +114,6 @@ ApplicationWindow {
                             anchors.fill: parent
                             onClicked: {
                                 selectedContact = modelData.name
-                                // Split the full name into first name and surname
                                 var nameParts = selectedContact.split(" ")
                                 firstNameField.text = nameParts[0] || ""
                                 surnameField.text = nameParts.slice(1).join(" ") || ""
@@ -239,38 +255,59 @@ ApplicationWindow {
     }
 
     // Add button
-    RoundButton {
+    Rectangle {   // Using Rectangle instead of RoundButton for simplicity
         id: addButton
-        text: "+"
+        width: 50
+        height: 50
+        radius: 25
+        color: "#45b7d1"
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.margins: 10
-        width: 50
-        height: 50
-        background: Rectangle { color: "#45b7d1"; radius: 25 }
-        onClicked: {
-            selectedContact = ""
-            firstNameField.text = ""; surnameField.text = ""; companyField.text = ""; phoneField.text = ""
-            showAddForm = true
+        Text {
+            text: "+"
+            anchors.centerIn: parent
+            color: "white"
+            font.pixelSize: 30
+        }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                selectedContact = ""
+                firstNameField.text = ""; surnameField.text = ""; companyField.text = ""; phoneField.text = ""
+                showAddForm = true
+            }
         }
     }
 
     // Function to filter contacts
     function filterContacts() {
         var searchText = searchField.text.toLowerCase()
-        contactList.model = contacts.filter(function(contact) {
+        var filteredContacts = contacts.filter(function(contact) {
             return contact.name.toLowerCase().indexOf(searchText) !== -1
         })
+
+        // Sort filtered contacts alphabetically
+        filteredContacts.sort(function(a, b) {
+            return a.name.localeCompare(b.name)
+        })
+
+        contactList.model = filteredContacts
     }
 
     Component.onCompleted: {
-        contacts = []
+        contacts = appSettings.savedContacts || []
+        // Sort contacts on load
+        contacts.sort(function(a, b) { return a.name.localeCompare(b.name) })
         contactList.model = contacts
     }
 }
 
+
+
 // import QtQuick 2.15
 // import QtQuick.Controls 2.15
+// import Qt.labs.settings 1.1
 
 // ApplicationWindow {
 //     visible: true
@@ -281,6 +318,12 @@ ApplicationWindow {
 
 //     // JavaScript array to manage contacts with name and phone
 //     property var contacts: []
+
+//     // Persistent storage for contacts
+//     Settings {
+//         id: appSettings
+//         property var savedContacts: []
+//     }
 
 //     // Function to add or update a contact
 //     function addOrUpdateContact(firstName, surname, company, phone) {
@@ -297,6 +340,7 @@ ApplicationWindow {
 //             contacts.push({ name: fullName, phone: phone })
 //             contactList.model = contacts
 //         }
+//         appSettings.savedContacts = contacts   // Persist contacts
 //         firstNameField.text = ""; surnameField.text = ""; companyField.text = ""; phoneField.text = ""
 //         showAddForm = false
 //     }
@@ -368,7 +412,6 @@ ApplicationWindow {
 //                             anchors.fill: parent
 //                             onClicked: {
 //                                 selectedContact = modelData.name
-//                                 // Split the full name into first name and surname
 //                                 var nameParts = selectedContact.split(" ")
 //                                 firstNameField.text = nameParts[0] || ""
 //                                 surnameField.text = nameParts.slice(1).join(" ") || ""
@@ -378,11 +421,7 @@ ApplicationWindow {
 //                             }
 //                         }
 //                     }
-//                     Text {
-//                         text: modelData.phone ? modelData.phone : "No phone"
-//                         color: "#999"
-//                         font.pixelSize: 14
-//                     }
+//                     // Phone number hidden, only name is shown
 //                 }
 //             }
 //         }
@@ -539,9 +578,7 @@ ApplicationWindow {
 //     }
 
 //     Component.onCompleted: {
-//         contacts = []
+//         contacts = appSettings.savedContacts || []
 //         contactList.model = contacts
-
 //     }
 // }
-
