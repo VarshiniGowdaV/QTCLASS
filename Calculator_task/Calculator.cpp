@@ -38,18 +38,26 @@ QList<QVariantMap> CalculatorBackend::buttons() const
     }
     return list;
 }
-
 void CalculatorBackend::handleButtonClick(const QString &label)
 {
     if (label == "AC") {
+        // Clear everything
         setDisplayText("0");
+
     } else if (label == "←") {
-        if (m_displayText.length() > 1) {
-            setDisplayText(m_displayText.left(m_displayText.length() - 1));
+        // Backspace: remove the last digit
+        if (!m_displayText.isEmpty() && m_displayText != "0") {
+            if (m_displayText.length() > 1) {
+                setDisplayText(m_displayText.left(m_displayText.length() - 1));
+            } else {
+                setDisplayText("0");
+            }
         } else {
             setDisplayText("0");
         }
+
     } else if (label == "=") {
+        // Evaluate the expression
         QString expr = m_displayText;
         expr.replace("×", "*").replace("÷", "/");
 
@@ -61,7 +69,9 @@ void CalculatorBackend::handleButtonClick(const QString &label)
         } else {
             setDisplayText(result.toString());
         }
+
     } else {
+        // Append numbers/operators
         if (m_displayText == "0") {
             setDisplayText(label);
         } else {
@@ -69,3 +79,34 @@ void CalculatorBackend::handleButtonClick(const QString &label)
         }
     }
 }
+
+// void CalculatorBackend::handleButtonClick(const QString &label)
+// {
+//     if (label == "AC") {
+//         setDisplayText("0");
+//     } else if (label == "←") {
+//         if (m_displayText.length() > 1) {
+//             setDisplayText(m_displayText.left(m_displayText.length() - 1));
+//         } else {
+//             setDisplayText("0");
+//         }
+//     } else if (label == "=") {
+//         QString expr = m_displayText;
+//         expr.replace("×", "*").replace("÷", "/");
+
+//         QJSEngine engine;
+//         QJSValue result = engine.evaluate(expr);
+
+//         if (result.isError()) {
+//             setDisplayText("Error");
+//         } else {
+//             setDisplayText(result.toString());
+//         }
+//     } else {
+//         if (m_displayText == "0") {
+//             setDisplayText(label);
+//         } else {
+//             setDisplayText(m_displayText + label);
+//         }
+//     }
+// }

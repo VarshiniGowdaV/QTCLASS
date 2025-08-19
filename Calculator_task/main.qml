@@ -17,6 +17,7 @@ ApplicationWindow {
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 120
+            radius: 10
             color: "black"
             Text {
                 id: display
@@ -24,8 +25,7 @@ ApplicationWindow {
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize: 40
                 color: "white"
-                text: backend ? backend.displayText : "0"
-            }
+                text: backend ? backend.displayText : "0"            }
         }
 
         GridLayout {
@@ -36,7 +36,7 @@ ApplicationWindow {
             columnSpacing: 10
 
             Repeater {
-                model: backend ? backend.buttons : []
+                model: backend.buttons
                 delegate: Button {
                     text: modelData.text
                     font.pixelSize: 22
@@ -46,7 +46,7 @@ ApplicationWindow {
                         color: modelData.color || "grey"
                         radius: 40
                     }
-                    onClicked: if (backend) backend.handleButtonClick(modelData.text)
+                    onClicked:  backend.handleButtonClick(modelData.text)
                 }
             }
 
