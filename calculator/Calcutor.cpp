@@ -1,4 +1,6 @@
-#include "Calculator.h"
+
+
+#include "Calcutor.h"
 #include <QJSEngine>
 #include <QJSValue>
 
@@ -38,6 +40,7 @@ QList<QVariantMap> CalculatorBackend::buttons() const
     }
     return list;
 }
+
 
 void CalculatorBackend::handleButtonClick(const QString &label)
 {

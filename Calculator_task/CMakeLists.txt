@@ -6,7 +6,37 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
-find_package(Qt6 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Corvoid CalculatorBackend::handleButtonClick(const QString &label)
+    {
+        if (label == "AC") {
+            setDisplayText("0");
+        } else if (label == "←") {
+            if (m_displayText.length() > 1) {
+                setDisplayText(m_displayText.left(m_displayText.length() - 1));
+            } else {
+                setDisplayText("0");
+            }
+        } else if (label == "=") {
+            QString expr = m_displayText;
+            expr.replace("×", "*").replace("÷", "/");
+
+            QJSEngine engine;
+            QJSValue result = engine.evaluate(expr);
+
+            if (result.isError()) {
+                setDisplayText("Error");
+            } else {
+                setDisplayText(result.toString());
+            }
+        } else {
+            if (m_displayText == "0") {
+                setDisplayText(label);
+            } else {
+                setDisplayText(m_displayText + label);
+            }
+        }
+    }
+e)
 
 qt_add_executable(appCalculator_task
     main.cpp
