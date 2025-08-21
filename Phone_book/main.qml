@@ -40,7 +40,6 @@ ApplicationWindow {
         contactList.model = contacts
         appSettings.savedContacts = contacts
 
-        // Reset form
         firstNameField.text = ""; surnameField.text = ""; companyField.text = ""; phoneField.text = ""
         showAddForm = false
     }
@@ -94,7 +93,7 @@ ApplicationWindow {
                         case "K": return "skyblue"
                         case "L": return "grey"
                         case "M": return "linegreen"
-                        case "N": return "light purple"
+                        case "N": return "lightpurple"
                         case "O": return "tan"
                         case "P": return "blue"
                         case "Q": return "cyan"

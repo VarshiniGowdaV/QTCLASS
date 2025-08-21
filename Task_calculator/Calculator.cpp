@@ -17,41 +17,128 @@ QStringList CalculatorBackend::buttons() const
 {
     return m_buttons;
 }
-
 void CalculatorBackend::handleButtonClick(const QString &button)
 {
-    if (button == "C") {
+    if (button == "C")
+    {
         m_displayText = "0";
-    } else if (button == "←") {
-        if (m_displayText.length() > 1) {
+    }
+    else if (button == "←")
+    {
+        if (m_displayText.#include "Contact.h"
+
+            Contact::Contact() {}
+
+            Contact::Contact(QString name, QString number)
+            {
+                m_contactName = name;
+                m_contactNumber = number;
+            }
+
+            Contact::~Contact()
+            {
+
+            }
+
+            QString Contact::getContactName() const
+            {
+                return m_contactName;
+            }
+
+            void Contact::setContactName(const QString &newContactName)
+            {
+                if (m_contactName == newContactName)
+                    return;
+                m_contactName = newContactName;
+                emit contactNameChanged();
+            }
+
+            QString Contact::getContactNumber() const
+            {
+                return m_contactNumber;
+            }
+
+            void Contact::setContactNumber(const QString &newContactNumber)
+            {
+                if (m_contactNumber == newContactNumber)
+                    return;
+                m_contactNumber = newContactNumber;
+                emit contactNumberChanged();
+            }
+length() > 1)
+        {
             m_displayText.chop(1);
-        } else {
+        }
+        else
+        {
             m_displayText = "0";
         }
-    } else if (button == "=") {
+    }
+    else if (button == "=")
+    {
         QString expression = m_displayText;
-        if (expression.contains("+")) {
+
+        double result = 0;
+        bool sum;
+
+        if (expression.contains("+"))
+        {
             QStringList parts = expression.split("+");
-            double result = 0;
-            bool ok;
-            for (const QString &part : parts) {
-                double num = part.toDouble(&ok);
-                if (ok) {
-                    result += num;
-                } else {
-                    m_displayText = "Error";
-                    emit displayChanged(m_displayText);
-                    return;
-                }
+            result = 0;
+            for (const QString &part : parts)
+            {
+                double num = part.toDouble(&sum);
+                if (sum) result += num;
             }
-            m_displayText = QString::number(result);
         }
-    } else {
-        if (m_displayText == "0" && button != ".") {
+        else if (expression.contains("-"))
+        {
+            QStringList parts = expression.split("-");
+            if (parts.size() > 0)
+                result = parts[0].toDouble(&sum);
+            for (int i = 1; i < parts.size(); i++)
+            {
+                double num = parts[i].toDouble(&sum);
+                if (sum) result -= num;
+            }
+        }
+        else if (expression.contains("*"))
+        {
+            QStringList parts = expression.split("*");
+            if (parts.size() > 0)
+                result = parts[0].toDouble(&sum);
+            for (int i = 1; i < parts.size(); i++)
+            {
+                double num = parts[i].toDouble(&sum);
+                if (sum) result *= num;
+            }
+        }
+        else if (expression.contains("/"))
+        {
+            QStringList parts = expression.split("/");
+            if (parts.size() > 0)
+                result = parts[0].toDouble(&sum);
+            for (int i = 1; i < parts.size(); i++)
+            {
+                double num = parts[i].toDouble(&sum);
+                if (sum && num != 0)
+                    result /= num;
+            }
+        }
+
+        m_displayText = QString::number(result);
+    }
+    else
+    {
+        if (m_displayText == "0" && button != ".")
+        {
             m_displayText = button;
-        } else {
+        }
+        else
+        {
             m_displayText += button;
         }
     }
+
     emit displayChanged(m_displayText);
 }
