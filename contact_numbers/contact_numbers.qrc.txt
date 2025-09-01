@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/Contact_number">
+        <file>main.qml</file>
+        <file>CallHistory.qml</file>
+        <file>PhoneBook.qml</file>
+        <file>AddContact.qml</file>
+        <file>WhatsApp.qml</file>
+    </qresource>
+</RCC>

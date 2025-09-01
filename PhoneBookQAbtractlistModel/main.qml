@@ -1,24 +1,38 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 
 ApplicationWindow {
     id: mainWindow
+    visible: true
     width: 400
     height: 600
-    visible: true
     title: "Phone Book"
 
     Loader {
         id: pageLoader
         anchors.fill: parent
-        source: "Contact.qml"
+        sourceComponent: createContactPage
     }
 
-    function loadContactPage() {
-        pageLoader.source = "Contact.qml"
+    Component {
+        id: createContactPage
+        Contact {
+            onSubmitClicked: (name, phone) => {
+                contactModel.addContact(name, phone)
+            }
+            onBackClicked: {
+                pageLoader.sourceComponent = contactListPage
+            }
+        }
     }
 
-    function loadContactListPage() {
-        pageLoader.source = "ContactListDisplay.qml"
+    Component {
+        id: contactListPage
+        ContactListDisplay {
+            onBackClicked: {
+                pageLoader.sourceComponent = createContactPage
+            }
+        }
     }
 }

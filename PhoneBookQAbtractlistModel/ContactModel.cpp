@@ -4,7 +4,6 @@
 ContactModel::ContactModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-
 }
 
 ContactModel::~ContactModel()

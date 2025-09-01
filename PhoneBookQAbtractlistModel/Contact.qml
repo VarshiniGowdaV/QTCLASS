@@ -1,5 +1,3 @@
-
-
 import QtQuick
 import QtQuick.Controls
 
@@ -8,59 +6,46 @@ Rectangle {
     anchors.fill: parent
     color: "black"
 
-    signal submitButtonClicked()
-    signal backButtonClicked()
+    signal submitClicked(string name, string phone)
+    signal backClicked()
 
     Column {
-        id: contactList
         anchors.centerIn: parent
-        spacing: 20
+        spacing: 15
 
         Label {
             text: "Create New Contact"
-            font.pixelSize: 30
+            font.pixelSize: 24
             color: "white"
-            font.bold: true
-            anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        Text {
-            text: "Contact Name"
-            color: "white"
-            font.pixelSize: 18
-            font.bold: true
-        }
         TextField {
-            id: contactNameText
-            width: contactPage.width / 2
-            height: 40
-            placeholderText: "Enter Contact Name"
+            id: nameField
+            placeholderText: "Enter name"
+            width: 200
         }
 
-        Text {
-            text: "Phone Number"
-            color: "white"
-            font.pixelSize: 18
-            font.bold: true
-        }
         TextField {
-            id: phoneNumberText
-            width: contactPage.width / 2
-            height: 40
-            placeholderText: "Enter Phone Number"
+            id: phoneField
+            placeholderText: "Enter phone"
+            width: 200
         }
 
         Row {
-            spacing: 20
-            anchors.horizontalCenter: parent.horizontalCenter
-
+            spacing: 10
             Button {
                 text: "Submit"
-                onClicked: contactPage.submitButtonClicked()
+                onClicked: {
+                    if (nameField.text !== "" && phoneField.text !== "") {
+                        submitClicked(nameField.text, phoneField.text)
+                        nameField.text = ""
+                        phoneField.text = ""
+                    }
+                }
             }
             Button {
                 text: "Back"
-                onClicked: contactPage.backButtonClicked()
+                onClicked: backClicked()
             }
         }
     }

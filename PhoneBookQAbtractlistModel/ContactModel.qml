@@ -2,53 +2,45 @@ import QtQuick
 import QtQuick.Controls
 
 Rectangle {
+    id: contactListPage
     anchors.fill: parent
     color: "black"
+
+    signal backClicked()
 
     Column {
         anchors.centerIn: parent
         spacing: 10
 
         Label {
-            text: "Contact List"
-            font.pixelSize: 30
+            text: "Saved Contacts"
+            font.pixelSize: 22
             color: "white"
         }
 
         ListView {
-            width: parent.width * 0.8
-            height: parent.height * 0.6
+            id: contactListView
+            width: parent.width
+            height: parent.height * 0.7
             model: contactModel
 
             delegate: Rectangle {
                 width: parent.width
-                height: 50
-                color: "#333"
-                border.color: "white"
-                border.width: 1
-                radius: 5
+                height: 40
+                color: index % 2 === 0 ? "#202020" : "#303030"
 
                 Row {
                     spacing: 20
-                    anchors.centerIn: parent
-                    Text {
-                        text: contactName
-                        color: "white"
-                        font.pixelSize: 18
-                    }
-                    Text {
-                        text: contactNumber
-                        color: "lightgreen"
-                        font.pixelSize: 18
-                    }
+                    anchors.verticalCenter: parent.verticalCenter
+                    Text { text: contactName; color: "white" }
+                    Text { text: contactNumber; color: "lightgreen" }
                 }
             }
         }
 
         Button {
             text: "Back"
-            anchors.horizontalCenter: parent.horizontalCenter
-            onClicked: mainWindow.loadContactPage()
+            onClicked: backClicked()
         }
     }
 }
