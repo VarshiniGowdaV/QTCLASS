@@ -1,43 +1,90 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
 
 Rectangle {
     id: homePage
     anchors.fill: parent
-    color: "pink"
+    color: "light grey"
 
     Column {
         anchors.centerIn: parent
-        spacing: 16
+        spacing: 40
 
-        Button {
-            text: "Phone Book"
-            width: homePage.width / 2
-            height: 50
-            onClicked: {
-                modelManager.createPhoneBook();
-                pageLoader.source = "Phone_book.qml";
+        Row {
+            spacing: 60
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Rectangle {
+                width: 100; height: 100
+                radius: width / 2
+                color: "white"
+                border.color: "black"
+                border.width: 2
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        modelManager.createCallHistory()
+                        pageLoader.source = "Call_History.qml"
+                    }
+                }
+
+                Text {
+                    anchors.centerIn: parent
+                    text: "📞 Call\nHistory"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+
+            Rectangle {
+                width: 100; height: 100
+                radius: width / 2
+                color: "white"
+                border.color: "black"
+                border.width: 2
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        modelManager.createPhoneBook()
+                        pageLoader.source = "Phone_book.qml"
+                    }
+                }
+
+                Text {
+                    anchors.centerIn: parent
+                    text: "👤 Phone\nBook"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
             }
         }
 
-        Button {
-            text: "Call History"
-            width: homePage.width / 2
-            height: 50
-            onClicked: {
-                modelManager.createCallHistory();
-                pageLoader.source = "Call_History.qml";
-            }
-        }
+        Rectangle {
+            width: 100; height: 100
+            radius: width / 2
+            color: "white"
+            border.color: "black"
+            border.width: 2
+            anchors.horizontalCenter: parent.horizontalCenter
 
-        Button {
-            text: "WhatsApp"
-            width: homePage.width / 2
-            height: 50
-            onClicked: {
-                modelManager.createWhatsApp();
-                pageLoader.source = "Whats_app.qml";
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    modelManager.createWhatsApp()
+                    pageLoader.source = "Whats_app.qml"
+                }
+            }
+
+            Text {
+                anchors.centerIn: parent
+                text: "💬 WhatsApp"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
             }
         }
     }
 }
+

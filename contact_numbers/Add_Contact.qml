@@ -45,7 +45,7 @@ Rectangle {
                 onClicked: {
                     if (nameField.text !== "" && numberField.text !== "") {
                         modelManager.addContact(nameField.text, numberField.text, imageField.text, "", false, false, "");
-                        pageLoader.source = "Phone_Book.qml"
+                        pageLoader.source = "PhoneBookPage.qml"
                     } else {
                         console.log("Please enter name and number")
                     }
@@ -54,7 +54,7 @@ Rectangle {
 
             Button {
                 text: "Back"
-                onClicked: pageLoader.source = "Phone_Book.qml"
+                onClicked: pageLoader.source = "PhoneBookPage.qml"
             }
         }
     }
