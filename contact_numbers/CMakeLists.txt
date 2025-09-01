@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core)
 find_package(Qt6 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Core)
 
 qt_add_executable(appcontact_numbers
     main.cpp
@@ -28,6 +29,9 @@ qt_add_qml_module(appcontact_numbers
     QML_FILES
     QML_FILES Add_Contact.qml
     RESOURCES
+    QML_FILES
+    QML_FILES Frontpage.qml
+    SOURCES contactmodelmanager.h contactmodelmanager.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -43,6 +47,7 @@ set_target_properties(appcontact_numbers PROPERTIES
 
 target_link_libraries(appcontact_numbers
     PRIVATE Qt6::Quick)
+target_link_libraries(appcontact_numbers PRIVATE Qt6::Core)
 target_link_libraries(appcontact_numbers PRIVATE Qt6::Core)
 target_link_libraries(appcontact_numbers PRIVATE Qt6::Core)
 

@@ -1,59 +1,43 @@
 #include "PhoneBook.h"
-#include <iostream>
 
 PhoneBook::PhoneBook(QObject *parent)
     : ContactDataModel(parent)
 {
+    qDebug() << "PhoneBook constructed";
 }
 
-PhoneBook::~PhoneBook() {}
-
-int PhoneBook::rowCount(const QModelIndex &parent) const
+PhoneBook::~PhoneBook()
 {
-    if (parent.isValid()) return 0;
-    return m_contactList.size();
+    qDebug() << "PhoneBook destroyed";
 }
 
-QVariant PhoneBook::data(const QModelIndex &index, int role) const
+Contact* PhoneBook::createContactData()
 {
-    if (!index.isValid() || index.row() >= m_contactList.size()) return QVariant();
-    Contact *contact = m_contactList.at(index.row());
+    return new Contact(QString(), QString(), QString(), QString(), false, false, QString(), nullptr);
+}
 
-    switch (role) {
-    case NameRole: return contact->contactName();
-    case NumberRole: return contact->contactNumber();
-    case ImageRole: return contact->image();
-    default: return QVariant();
+void PhoneBook::insertContactData(Contact *prototype)
+{
+    Contact *c = createContactData();
+    if (prototype) {
+        c->setName(prototype->name());
+        c->setNumber(prototype->number());
+        c->setImage(prototype->image());
+        c->setCallTime(prototype->callTime());
+        c->setIsIncoming(prototype->isIncoming());
+        c->setIsOutgoing(prototype->isOutgoing());
+        c->setShortMessage(prototype->shortMessage());
+        delete prototype;
     }
+    ContactDataModel::insertContactData(c);
 }
 
-QHash<int, QByteArray> PhoneBook::roleNames() const
+Contact* PhoneBook::getContactData(int index) const
 {
-    QHash<int, QByteArray> roles;
-    roles[NameRole] = "contactName";
-    roles[NumberRole] = "contactNumber";
-    roles[ImageRole] = "image";
-    return roles;
+    return ContactDataModel::getContactData(index);
 }
 
-void PhoneBook::createContactData()
+int PhoneBook::count() const
 {
-    std::string name, number, image;
-    std::cout << "Enter Contact Name: ";
-    std::getline(std::cin, name);
-    std::cout << "Enter Contact Number: ";
-    std::getline(std::cin, number);
-    std::cout << "Enter Image Path (optional): ";
-    std::getline(std::cin, image);
-
-    insertContactData(new Contact(QString::fromStdString(name),
-                                  QString::fromStdString(number),
-                                  QString::fromStdString(image)));
-}
-
-void PhoneBook::addContact(const QString &name,
-                           const QString &number,
-                           const QString &imagePath)
-{
-    insertContactData(new Contact(name, number, imagePath));
+    return ContactDataModel::count();
 }

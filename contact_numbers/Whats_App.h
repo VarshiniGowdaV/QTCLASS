@@ -1,27 +1,19 @@
 #ifndef WHATSAPP_H
 #define WHATSAPP_H
-
 #include "ContactDataModel.h"
+#include <QDebug>
 
 class WhatsApp : public ContactDataModel
 {
     Q_OBJECT
 public:
     explicit WhatsApp(QObject *parent = nullptr);
-    ~WhatsApp() override;
+    ~WhatsApp();
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
-    QHash<int, QByteArray> roleNames() const override;
-
-    void createContactData() override;
-
-public slots:
-    Q_INVOKABLE void addChat(const QString &name,
-                             const QString &number,
-                             const QString &imagePath,
-                             const QString &lastMessage,
-                             const QString &lastMessageTime);
+    Contact* createContactData() override;
+    void insertContactData(Contact *prototype) override;
+    Contact* getContactData(int index) const override;
+    int count() const override;
 };
 
 #endif // WHATSAPP_H

@@ -1,43 +1,60 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
-Page {
+Rectangle {
     id: addContactPage
-    title: "Add Contact"
-
-    property var navigationCallback
+    anchors.fill: parent
+    color: "lightgray"
 
     Column {
         anchors.centerIn: parent
-        spacing: 10
+        spacing: 15
 
         TextField {
             id: nameField
-            placeholderText: "Contact name..."
+            width: addContactPage.width / 2
+            height: 50
+            placeholderText: "Enter Name"
+            font.pixelSize: 18
+            color: "black"
         }
+
         TextField {
             id: numberField
-            placeholderText: "Contact number..."
+            width: addContactPage.width / 2
+            height: 50
+            placeholderText: "Enter Number"
+            font.pixelSize: 18
+            color: "black"
         }
-    }
 
-    Row {
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        spacing: 10
+        TextField {
+            id: imageField
+            placeholderText: "Image URL (optional)"
+            width: addContactPage.width / 2
+            height: 50
+            font.pixelSize: 18
+            color: "black"
+        }
 
-        Button {
-            text: "Save to Contact"
-            onClicked: {
-                phoneBookModel.addContact(nameField.text, numberField.text, "");
-                navigationCallback("back");
+        Row {
+            spacing: 40
+
+            Button {
+                text: "Save"
+                onClicked: {
+                    if (nameField.text !== "" && numberField.text !== "") {
+                        modelManager.addContact(nameField.text, numberField.text, imageField.text, "", false, false, "");
+                        pageLoader.source = "Phone_Book.qml"
+                    } else {
+                        console.log("Please enter name and number")
+                    }
+                }
             }
-        }
-        Button {
-            text: "Save to WhatsApp"
-            onClicked: {
-                whatsappModel.addChat(nameField.text, numberField.text, "", "", "");
-                navigationCallback("whatsApp");
+
+            Button {
+                text: "Back"
+                onClicked: pageLoader.source = "Phone_Book.qml"
             }
         }
     }

@@ -1,27 +1,54 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
 
-Page {
-    title: "Phone Book"
+Rectangle {
+    id: phoneBookPage
+    anchors.fill: parent
+    color: "white"
 
-    ColumnLayout {
+    Column {
         anchors.fill: parent
         spacing: 10
+        padding: 10
 
-        TextField { placeholderText: "Search Contacts..." }
         ListView {
-            Layout.fillWidth: true; Layout.fillHeight: true
-            model: phoneBookModel  // from C++
-            delegate: Row {
-                spacing: 10
-                Image { source: photo; width: 40; height: 40 }
-                Column {
-                    Text { text: contactName; font.bold: true }
-                    Text { text: contactNumber }
+            id: phoneBookList
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width
+            height: parent.height - 100
+            spacing: 8
+            clip: true
+            model: modelManager.contactModel
+
+            delegate: Rectangle {
+                width: parent.width
+                height: 60
+                radius: 6
+                color: "#f0f0f0"
+                border.color: "gray"
+
+                Row {
+                    anchors.centerIn: parent
+                    spacing: 12
+                    Text { text: name; font.bold: true }
+                    Text { text: number }
                 }
             }
         }
-        Button { text: "Add Contact" }
+
+        Row {
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 20
+
+            Button {
+                text: "Add"
+                onClicked: pageLoader.source = "Add_Contact.qml"
+            }
+
+            Button {
+                text: "Back"
+                onClicked: pageLoader.source = "Frontpage.qml"
+            }
+        }
     }
 }

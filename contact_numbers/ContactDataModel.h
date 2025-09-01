@@ -1,33 +1,36 @@
 #ifndef CONTACTDATAMODEL_H
 #define CONTACTDATAMODEL_H
-
-#include "Contact.h"
 #include <QAbstractListModel>
-#include <QList>
+#include "Contact.h"
 
 class ContactDataModel : public QAbstractListModel
 {
     Q_OBJECT
-
 public:
     enum ContactRoles {
-        NameRole = 1,
+        NameRole = Qt::UserRole + 1,
         NumberRole,
         ImageRole,
         CallTimeRole,
-        IncomingRole,
-        OutgoingRole
+        IsIncomingRole,
+        IsOutgoingRole,
+        ShortMessageRole
     };
 
     explicit ContactDataModel(QObject *parent = nullptr);
-    ~ContactDataModel();
+    virtual ~ContactDataModel();
 
-    void insertContactData(Contact *contact);
-    Contact* getContactData(int index) const;
-    virtual void createContactData() = 0;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QHash<int, QByteArray> roleNames() const override;
+
+    virtual Contact* createContactData() = 0;
+    virtual void insertContactData(Contact *prototype);
+    virtual Contact* getContactData(int index) const;
+    virtual int count() const;
 
 protected:
-    QList<Contact*> m_contactList;
+    QList<Contact*> m_contacts;
 };
 
-#endif // CONTACTDATAMODEL_H
+#endif

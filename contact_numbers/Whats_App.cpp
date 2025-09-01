@@ -1,71 +1,43 @@
 #include "Whats_App.h"
-#include <iostream>
 
 WhatsApp::WhatsApp(QObject *parent)
     : ContactDataModel(parent)
 {
+    qDebug() << "WhatsApp constructed";
 }
 
-WhatsApp::~WhatsApp() {}
-
-int WhatsApp::rowCount(const QModelIndex &parent) const
+WhatsApp::~WhatsApp()
 {
-    if (parent.isValid()) return 0;
-    return m_contactList.size();
+    qDebug() << "WhatsApp destroyed";
 }
 
-QVariant WhatsApp::data(const QModelIndex &index, int role) const
+Contact* WhatsApp::createContactData()
 {
-    if (!index.isValid() || index.row() >= m_contactList.size()) return QVariant();
-    Contact *contact = m_contactList.at(index.row());
+    return new Contact(QString(), QString(), QString(), QString(), false, false, QString(), nullptr);
+}
 
-    switch (role) {
-    case NameRole: return contact->contactName();
-    case NumberRole: return contact->contactNumber();
-    case ImageRole: return contact->image();
-    case CallTimeRole: return contact->callTime();
-    case IncomingRole: return contact->isIncoming();
-    default: return QVariant();
+void WhatsApp::insertContactData(Contact *prototype)
+{
+    Contact *c = createContactData();
+    if (prototype) {
+        c->setName(prototype->name());
+        c->setNumber(prototype->number());
+        c->setImage(prototype->image());
+        c->setCallTime(prototype->callTime());
+        c->setIsIncoming(prototype->isIncoming());
+        c->setIsOutgoing(prototype->isOutgoing());
+        c->setShortMessage(prototype->shortMessage());
+        delete prototype;
     }
+    ContactDataModel::insertContactData(c);
 }
 
-QHash<int, QByteArray> WhatsApp::roleNames() const
+Contact* WhatsApp::getContactData(int index) const
 {
-    QHash<int, QByteArray> roles;
-    roles[NameRole] = "contactName";
-    roles[NumberRole] = "contactNumber";
-    roles[ImageRole] = "image";
-    roles[CallTimeRole] = "lastMessageTime";
-    roles[IncomingRole] = "lastMessage";
-    return roles;
+    return ContactDataModel::getContactData(index);
 }
 
-void WhatsApp::createContactData()
+int WhatsApp::count() const
 {
-    std::string name, number, image, lastMessage, lastMessageTime;
-    std::cout << "Enter Chat Name: ";
-    std::getline(std::cin, name);
-    std::cout << "Enter Number: ";
-    std::getline(std::cin, number);
-    std::cout << "Enter Image Path (optional): ";
-    std::getline(std::cin, image);
-    std::cout << "Enter Last Message: ";
-    std::getline(std::cin, lastMessage);
-    std::cout << "Enter Last Message Time: ";
-    std::getline(std::cin, lastMessageTime);
-
-    insertContactData(new Contact(QString::fromStdString(name),
-                                  QString::fromStdString(number),
-                                  QString::fromStdString(image),
-                                  QString::fromStdString(lastMessageTime),
-                                  QString::fromStdString(lastMessage)));
-}
-
-void WhatsApp::addChat(const QString &name,
-                       const QString &number,
-                       const QString &imagePath,
-                       const QString &lastMessage,
-                       const QString &lastMessageTime)
-{
-    insertContactData(new Contact(name, number, imagePath, lastMessageTime, lastMessage));
+    return ContactDataModel::count();
 }

@@ -1,24 +1,19 @@
 #ifndef PHONEBOOK_H
 #define PHONEBOOK_H
 #include "ContactDataModel.h"
+#include <QDebug>
 
 class PhoneBook : public ContactDataModel
 {
     Q_OBJECT
 public:
     explicit PhoneBook(QObject *parent = nullptr);
-    ~PhoneBook() override;
+    ~PhoneBook();
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
-    QHash<int, QByteArray> roleNames() const override;
-
-    void createContactData() override;
-
-public slots:
-    Q_INVOKABLE void addContact(const QString &name,
-                                const QString &number,
-                                const QString &imagePath);
+    Contact* createContactData() override;
+    void insertContactData(Contact *prototype) override;
+    Contact* getContactData(int index) const override;
+    int count() const override;
 };
 
 #endif // PHONEBOOK_H

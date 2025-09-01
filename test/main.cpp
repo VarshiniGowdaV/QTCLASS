@@ -1,18 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QQmlContext>
-#include "contactmodelmanager.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-
-    ContactModelManager manager;
-    engine.rootContext()->setContextProperty("modelManager", &manager);
-
-    const QUrl url(QStringLiteral("qrc:/contact_numbers/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/test/main.qml"));
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreated,
