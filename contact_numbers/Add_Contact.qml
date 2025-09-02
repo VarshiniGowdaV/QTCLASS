@@ -1,60 +1,91 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
 
 Rectangle {
     id: addContactPage
     anchors.fill: parent
-    color: "lightgray"
+    color: "#F5F5F5"
 
     Column {
-        anchors.centerIn: parent
-        spacing: 15
-
-        TextField {
-            id: nameField
-            width: addContactPage.width / 2
-            height: 50
-            placeholderText: "Enter Name"
-            font.pixelSize: 18
-            color: "black"
-        }
-
-        TextField {
-            id: numberField
-            width: addContactPage.width / 2
-            height: 50
-            placeholderText: "Enter Number"
-            font.pixelSize: 18
-            color: "black"
-        }
-
-        TextField {
-            id: imageField
-            placeholderText: "Image URL (optional)"
-            width: addContactPage.width / 2
-            height: 50
-            font.pixelSize: 18
-            color: "black"
-        }
-
+        anchors.fill: parent
+        spacing: 20
+        padding: 20
         Row {
-            spacing: 40
+            width: parent.width
+            spacing: 10
+            height: 40
 
             Button {
-                text: "Save"
+                text: "<"
                 onClicked: {
-                    if (nameField.text !== "" && numberField.text !== "") {
-                        modelManager.addContact(nameField.text, numberField.text, imageField.text, "", false, false, "");
-                        pageLoader.source = "PhoneBookPage.qml"
-                    } else {
-                        console.log("Please enter name and number")
-                    }
+                    pageLoader.source = "Phone_book.qml"
                 }
             }
 
-            Button {
-                text: "Back"
-                onClicked: pageLoader.source = "PhoneBookPage.qml"
+            Label {
+                text: "Add Contact"
+                font.pixelSize: 18
+                font.bold: true
+                color: "black"
+            }
+        }
+        Rectangle {
+            width: 150
+            height: 150
+            radius: width / 2
+            color: "white"
+            border.color: "gray"
+            border.width: 3
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Image {
+                id: profilePic
+                anchors.fill: parent
+                anchors.margins: 6
+                fillMode: Image.PreserveAspectCrop
+                source: imageField.text !== "" ? imageField.text : "qrc:/default_profile.png"
+                clip: true
+            }
+        }
+        Column {
+            spacing: 15
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width * 0.9
+
+            TextField {
+                id: nameField
+                placeholderText: "Enter Name"
+                width: parent.width
+            }
+
+            TextField {
+                id: numberField
+                placeholderText: "Enter Number"
+                inputMethodHints: Qt.ImhDigitsOnly
+                width: parent.width
+            }
+
+            TextField {
+                id: emailField
+                placeholderText: "Enter Email"
+                width: parent.width
+            }
+
+            TextField {
+                id: imageField
+                placeholderText: "Profile Image URL (optional)"
+                width: parent.width
+            }
+        }
+        Button {
+            text: "Save Contact"
+            width: parent.width * 0.9
+            height: 40
+            anchors.horizontalCenter: parent.horizontalCenter
+            onClicked: {
+                console.log("Contact Saved:", nameField.text, numberField.text, emailField.text, imageField.text)
+                pageLoader.source = "PhoneBookPage.qml"
             }
         }
     }
