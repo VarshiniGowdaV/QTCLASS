@@ -1,5 +1,5 @@
 #include "Call_History.h"
-
+#include "Contact.h"
 CallHistory::CallHistory(QObject *parent)
     : ContactDataModel(parent)
 {
@@ -13,7 +13,9 @@ CallHistory::~CallHistory()
 
 Contact* CallHistory::createContactData()
 {
-    return new Contact(QString(), QString(), QString(), QString(), false, false, QString(), nullptr);
+   return new Contact(QString(), QString(), QString(), QString(), false, false, QString(), nullptr);
+
+
 }
 
 void CallHistory::insertContactData(Contact *prototype)

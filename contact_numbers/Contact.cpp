@@ -1,3 +1,4 @@
+
 #include "Contact.h"
 
 Contact::Contact(const QString &name,

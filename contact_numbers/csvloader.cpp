@@ -15,7 +15,7 @@ QList<Contact*> CsvLoader::loadContacts(const QString &filePath, QObject *parent
     bool firstLine = true;
     while (!in.atEnd()) {
         QString line = in.readLine();
-        if (firstLine) { // skip header
+        if (firstLine) {
             firstLine = false;
             continue;
         }
