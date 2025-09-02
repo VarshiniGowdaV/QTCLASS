@@ -1,9 +1,8 @@
 #include "contactmodelmanager.h"
-#include "Contact.h"
 #include "PhoneBook.h"
-
-#include <QFile>
-#include <QTextStream>
+#include "Call_History.h"
+#include "Whats_App.h"
+#include "csvloader.h"
 #include <QDebug>
 
 ContactModelManager::ContactModelManager(QObject *parent)
@@ -29,6 +28,7 @@ void ContactModelManager::setModel(ContactDataModel* model)
 {
     if (m_contactModel) {
         delete m_contactModel;
+        m_contactModel = nullptr;
     }
     m_contactModel = model;
     if (m_contactModel) {
@@ -37,63 +37,49 @@ void ContactModelManager::setModel(ContactDataModel* model)
     emit contactModelChanged();
 }
 
-void ContactModelManager::loadContactsFromCSV(const QString &filePath)
+void ContactModelManager::createPhoneBook()
 {
     PhoneBook* m = new PhoneBook(nullptr);
     setModel(m);
 
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << "Could not open CSV file:" << filePath;
-        return;
+    QList<Contact*> contacts = CsvLoader::loadContacts("phonebook.csv", m);
+    for (Contact* c : contacts) {
+        m->insertContactData(c);
     }
-
-    QTextStream in(&file);
-    bool firstLine = true;
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        if (line.trimmed().isEmpty()) continue;
-
-        // Skip header row
-        if (firstLine && line.contains("Name", Qt::CaseInsensitive)) {
-            firstLine = false;
-            continue;
-        }
-
-        QStringList fields = line.split(",");
-        if (fields.size() < 7) {
-            qWarning() << "Invalid CSV line:" << line;
-            continue;
-        }
-
-        QString name       = fields[0].trimmed();
-        QString number     = fields[1].trimmed();
-        QString image      = fields[2].trimmed();
-        QString callTime   = fields[3].trimmed();
-        bool isIncoming    = (fields[4].trimmed().toLower() == "true");
-        bool isOutgoing    = (fields[5].trimmed().toLower() == "true");
-        QString shortMsg   = fields[6].trimmed();
-
-        m->insertContactData(new Contact(name, number, image, callTime, isIncoming, isOutgoing, shortMsg));
-    }
-    file.close();
-}
-void ContactModelManager::createPhoneBook()
-{
-    loadContactsFromCSV(":/data/phonebook.csv");
 }
 
 void ContactModelManager::createCallHistory()
 {
-    loadContactsFromCSV(":/data/callhistory.csv");
+    CallHistory* m = new CallHistory(nullptr);
+    setModel(m);
+
+    QList<Contact*> contacts = CsvLoader::loadContacts("callhistory.csv", m);
+    for (Contact* c : contacts) {
+        m->insertContactData(c);
+    }
 }
 
 void ContactModelManager::createWhatsApp()
 {
-    loadContactsFromCSV(":/data/whatsapp.csv");
+    WhatsApp* m = new WhatsApp(nullptr);
+    setModel(m);
+
+    QList<Contact*> contacts = CsvLoader::loadContacts("whatsapp.csv", m);
+    for (Contact* c : contacts) {
+        m->insertContactData(c);
+    }
 }
 
-
+void ContactModelManager::addContact(const QString &name, const QString &number, const QString &image,
+                                     const QString &callTime, bool isIncoming,
+                                     bool isOutgoing, const QString &shortMessage)
+{
+    if (!m_contactModel) {
+        createPhoneBook();
+    }
+    m_contactModel->insertContactData(new Contact(name, number, image, callTime,
+                                                  isIncoming, isOutgoing, shortMessage));
+}
 
 // #include "contactmodelmanager.h"
 // #include "PhoneBook.h"

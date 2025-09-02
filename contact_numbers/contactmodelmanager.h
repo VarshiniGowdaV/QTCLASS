@@ -1,6 +1,5 @@
 #ifndef CONTACTMODELMANAGER_H
 #define CONTACTMODELMANAGER_H
-
 #include <QObject>
 #include "ContactDataModel.h"
 
@@ -12,11 +11,13 @@ public:
     explicit ContactModelManager(QObject *parent = nullptr);
     ~ContactModelManager();
 
-    Q_INVOKABLE void loadContactsFromCSV(const QString &filePath);
-
     Q_INVOKABLE void createPhoneBook();
     Q_INVOKABLE void createCallHistory();
     Q_INVOKABLE void createWhatsApp();
+
+    Q_INVOKABLE void addContact(const QString &name, const QString &number, const QString &image,
+                                const QString &callTime = QString(), bool isIncoming = false,
+                                bool isOutgoing = false, const QString &shortMessage = QString());
 
     ContactDataModel* contactModel() const;
 
@@ -28,7 +29,7 @@ private:
     void setModel(ContactDataModel* model);
 };
 
-#endif // CONTACTMODELMANAGER_H
+#endif
 
 
 
