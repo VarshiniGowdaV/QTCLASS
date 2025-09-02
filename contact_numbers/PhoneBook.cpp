@@ -14,7 +14,6 @@ PhoneBook::~PhoneBook()
 Contact* PhoneBook::createContactData()
 {
     return new Contact(QString(), QString(), QString(), QString(), false, false, QString(), nullptr);
-
 }
 
 void PhoneBook::insertContactData(Contact *prototype)

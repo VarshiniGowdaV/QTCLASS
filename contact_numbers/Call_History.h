@@ -10,7 +10,6 @@ public:
     explicit CallHistory(QObject *parent = nullptr);
     ~CallHistory();
 
-
     Contact* createContactData() override;
     void insertContactData(Contact *prototype) override;
     Contact* getContactData(int index) const override;

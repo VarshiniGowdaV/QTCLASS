@@ -1,5 +1,3 @@
-
-
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -24,7 +22,8 @@ int main(int argc, char *argv[])
                 QCoreApplication::exit(-1);
         },
         Qt::QueuedConnection);
-    engine.load(url);
 
+    engine.load(url);
     return app.exec();
 }
+

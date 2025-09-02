@@ -1,5 +1,4 @@
 
-
 #include "ContactDataModel.h"
 #include <QDebug>
 
@@ -19,6 +18,7 @@ int ContactDataModel::rowCount(const QModelIndex &parent) const
     Q_UNUSED(parent);
     return m_contacts.count();
 }
+
 QVariant ContactDataModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || index.row() < 0 || index.row() >= m_contacts.count())
@@ -51,6 +51,7 @@ QHash<int, QByteArray> ContactDataModel::roleNames() const
     roles[ShortMessageRole] = "shortMessage";
     return roles;
 }
+
 
 void ContactDataModel::insertContactData(Contact *contact)
 {

@@ -1,5 +1,5 @@
 #include "Whats_App.h"
-#include "Contact.h"
+
 WhatsApp::WhatsApp(QObject *parent)
     : ContactDataModel(parent)
 {
@@ -14,7 +14,6 @@ WhatsApp::~WhatsApp()
 Contact* WhatsApp::createContactData()
 {
     return new Contact(QString(), QString(), QString(), QString(), false, false, QString(), nullptr);
-
 }
 
 void WhatsApp::insertContactData(Contact *prototype)

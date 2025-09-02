@@ -1,5 +1,3 @@
-
-
 #ifndef CONTACTDATAMODEL_H
 #define CONTACTDATAMODEL_H
 #include <QAbstractListModel>
@@ -10,14 +8,13 @@ class ContactDataModel : public QAbstractListModel
     Q_OBJECT
 public:
     enum ContactRoles {
-        NameRole = 1,
+        NameRole =1,
         NumberRole,
         ImageRole,
         CallTimeRole,
         IsIncomingRole,
         IsOutgoingRole,
-        ShortMessageRole,
-        IsMissedRole
+        ShortMessageRole
     };
 
     explicit ContactDataModel(QObject *parent = nullptr);

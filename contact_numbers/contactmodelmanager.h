@@ -1,5 +1,3 @@
-
-
 #ifndef CONTACTMODELMANAGER_H
 #define CONTACTMODELMANAGER_H
 #include <QObject>
@@ -32,5 +30,4 @@ private:
 };
 
 #endif
-
 

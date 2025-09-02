@@ -1,5 +1,4 @@
 
-
 #include "contactmodelmanager.h"
 #include "PhoneBook.h"
 #include "Call_History.h"

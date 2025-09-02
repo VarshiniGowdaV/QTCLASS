@@ -65,18 +65,6 @@ Rectangle {
                 inputMethodHints: Qt.ImhDigitsOnly
                 width: parent.width
             }
-
-            TextField {
-                id: emailField
-                placeholderText: "Enter Email"
-                width: parent.width
-            }
-
-            TextField {
-                id: imageField
-                placeholderText: "Profile Image URL (optional)"
-                width: parent.width
-            }
         }
         Button {
             text: "Save Contact"
@@ -84,7 +72,7 @@ Rectangle {
             height: 40
             anchors.horizontalCenter: parent.horizontalCenter
             onClicked: {
-                console.log("Contact Saved:", nameField.text, numberField.text, emailField.text, imageField.text)
+                console.log("Contact Saved:", nameField.text, numberField.text)
                 pageLoader.source = "PhoneBookPage.qml"
             }
         }
