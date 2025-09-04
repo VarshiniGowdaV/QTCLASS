@@ -1,3 +1,4 @@
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
@@ -18,7 +19,7 @@ Rectangle {
             Rectangle {
                 width: 100; height: 100
                 radius: width / 2
-                color: "white"
+                color: "grey"
                 border.color: "black"
                 border.width: 2
 
@@ -30,18 +31,29 @@ Rectangle {
                     }
                 }
 
-                Text {
+                Column {
                     anchors.centerIn: parent
-                    text: "📞 Call\nHistory"
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
+                    spacing: 6
+
+                    Image {
+                        source: "Images/callhistory.png"
+                        width: 60
+                        height: 60
+                        fillMode: Image.PreserveAspectFit
+                    }
+
+                    Text {
+                        // text: "📞 Call\nHistory"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: 12
+                    }
                 }
             }
-
             Rectangle {
                 width: 100; height: 100
                 radius: width / 2
-                color: "white"
+                color: "grey"
                 border.color: "black"
                 border.width: 2
 
@@ -53,19 +65,32 @@ Rectangle {
                     }
                 }
 
-                Text {
+                Column {
                     anchors.centerIn: parent
-                    text: "👤 Phone\nBook"
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
+                    spacing: 6
+
+                    Image {
+                        source: "Images/phonebook.png"
+                        width: 60
+                        height: 60
+                        fillMode: Image.PreserveAspectFit
+                    }
+
+                    Text {
+                        // text: "👤 Phone\nBook"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: 12
+                    }
                 }
             }
         }
 
         Rectangle {
-            width: 100; height: 100
+            width: 100
+            height: 100
             radius: width / 2
-            color: "white"
+            color: "grey"
             border.color: "black"
             border.width: 2
             anchors.horizontalCenter: parent.horizontalCenter
@@ -78,11 +103,23 @@ Rectangle {
                 }
             }
 
-            Text {
+            Column {
                 anchors.centerIn: parent
-                text: "💬 WhatsApp"
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+                spacing: 6
+
+                Image {
+                    source: "Images/whatsapp.png"
+                    width: 60
+                    height: 60
+                    fillMode: Image.PreserveAspectFit
+                }
+
+                Text {
+                    // text: "💬 WhatsApp"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.pixelSize: 12
+                }
             }
         }
     }

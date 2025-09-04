@@ -33,6 +33,11 @@ qt_add_qml_module(appcontact_numbers
     QML_FILES Frontpage.qml
     SOURCES contactmodelmanager.h contactmodelmanager.cpp
     SOURCES csvloader.h csvloader.cpp
+    RESOURCES Images/Call.png
+    RESOURCES Images/phonebook.png
+    RESOURCES Images/callhistory.png
+    RESOURCES Images/whatsapp.png
+    QML_FILES ContactCall.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

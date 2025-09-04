@@ -11,6 +11,6 @@ ApplicationWindow {
     Loader {
         id: pageLoader
         anchors.fill: parent
-        source: "Frontpage.qml"
+        source: "Front_page.qml"
     }
 }
